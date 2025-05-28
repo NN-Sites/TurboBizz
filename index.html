@@ -191,6 +191,31 @@ color: #000000;
 font-size: 15px;
 line-height: 1.6;
 } 
+.cool-button {
+  display: inline-block;
+  padding: 14px 28px;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: white;
+  background: linear-gradient(45deg, #6a11cb, #2575fc);
+  border-radius: 30px;
+  text-decoration: none;
+  box-shadow: 0 5px 15px rgba(97, 58, 255, 0.6);
+  transition: all 0.3s ease;
+  user-select: none;
+  cursor: pointer;
+}
+
+.cool-button:hover {
+  background: linear-gradient(45deg, #2575fc, #6a11cb);
+  box-shadow: 0 8px 25px rgba(97, 58, 255, 0.9);
+  transform: translateY(-3px);
+}
+
+.cool-button:active {
+  transform: translateY(1px);
+  box-shadow: 0 3px 10px rgba(97, 58, 255, 0.4);
+}
     </style>
 </head>
 <body>
@@ -204,6 +229,7 @@ line-height: 1.6;
         <div class="container">
             <h1>TurboBizz</h1>
             <p>נותנים פוש לעסק שלך.</p>
+            <a href="contact.html" class="cool-button">צור קשר עכשיו</a>
         </div>
     </div>
     <div class="bottom-section" id="about">
