@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" href="https://i.postimg.cc/TPHxZ2BN/Push-Business-1.png" type="image/png">
+<title>טופס יצירת קשר - TurboBizz</title>
+<style>
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+  }
+  form {
+    background: #1e1e2f;
+    padding: 30px;
+    border-radius: 15px;
+    max-width: 620px;
+    width: 100%;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+  }
+  h1 {
+    text-align: center;
+    margin-bottom: 25px;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+  }
+  label {
+    display: block;
+    margin-top: 15px;
+    font-weight: 600;
+    font-size: 0.95rem;
+  }
+  input[type="text"],
+  input[type="email"],
+  input[type="tel"] {
+    width: 100%;
+    padding: 10px 12px;
+    border-radius: 8px;
+    border: none;
+    margin-top: 6px;
+    font-size: 1rem;
+  }
+  .service-group {
+    margin-top: 20px;
+  }
+  .service-row {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+    align-items: center;
+  }
+  .service-label {
+    font-weight: 500;
+  }
+  select {
+    padding: 6px 10px;
+    border-radius: 6px;
+    border: none;
+    font-size: 1rem;
+    background-color: #44465a;
+    color: #fff;
+  }
+  button {
+    margin-top: 25px;
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 10px;
+    background: #2575fc;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: white;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  button:hover {
+    background: #6a11cb;
+  }
+  #success-message,
+  #error-message {
+    text-align: center;
+    margin-top: 20px;
+    font-weight: 600;
+    display: none;
+  }
+  #success-message {
+    color: #4CAF50;
+  }
+  #error-message {
+    color: #f44336;
+  }
+</style>
+</head>
+<body>
+
+<form id="contact-form">
+  <h1>טופס יצירת קשר</h1>
+
+  <label for="user_name">שם מלא</label>
+  <input type="text" id="user_name" name="user_name" required />
+
+  <label for="user_phone">מספר טלפון זמין</label>
+  <input type="tel" id="user_phone" name="user_phone" required pattern="[0-9+\- ]{6,15}" />
+
+  <label for="user_email">אימייל</label>
+  <input type="email" id="user_email" name="user_email" required />
+
+  <div class="service-group">
+    <label>שירותים</label>
+
+    <div class="service-row">
+      <span class="service-label">בניית אתר/דף נחיתה</span>
+      <select name="service_landing" id="service_landing">
+        <option value="לא">לא</option>
+        <option value="כן">כן</option>
+      </select>
+    </div>
+
+    <div class="service-row">
+      <span class="service-label">עיצוב לוגו</span>
+      <select name="service_logo" id="service_logo">
+        <option value="לא">לא</option>
+        <option value="כן">כן</option>
+      </select>
+    </div>
+
+    <div class="service-row">
+      <span class="service-label">יצירת תוכן שיווקי לרשתות החברתיות</span>
+      <select name="service_content" id="service_content">
+        <option value="לא">לא</option>
+        <option value="כן">כן</option>
+      </select>
+    </div>
+
+    <div class="service-row">
+      <span class="service-label">עיצוב פלאיירים או פוסטרים</span>
+      <select name="service_flyers" id="service_flyers">
+        <option value="לא">לא</option>
+        <option value="כן">כן</option>
+      </select>
+    </div>
+  </div>
+
+  <button type="submit">שלח</button>
+
+  <p id="success-message">ההודעה נשלחה בהצלחה, נחזור אליך בהקדם!</p>
+  <p id="error-message">אופס! משהו השתבש. נסה שוב.</p>
+</form>
+
+<script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+<script>
+  (function(){
+    emailjs.init("mXjVT9I9cjsBTVa-K");
+  })();
+
+  const form = document.getElementById('contact-form');
+  const successMsg = document.getElementById('success-message');
+  const errorMsg = document.getElementById('error-message');
+
+  form.addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    // בונים מחרוזת שירותים לפי הבחירות
+    const services = [
+      `בניית אתר/דף נחיתה: ${form.service_landing.value}`,
+      `עיצוב לוגו: ${form.service_logo.value}`,
+      `יצירת תוכן שיווקי לרשתות החברתיות: ${form.service_content.value}`,
+      `עיצוב פלאיירים או פוסטרים: ${form.service_flyers.value}`
+    ].join(' | ');
+
+    // יוצרים אובייקט נתונים ל־EmailJS
+    const templateParams = {
+      user_name: form.user_name.value,
+      user_phone: form.user_phone.value,
+      user_email: form.user_email.value,
+      user_services: services
+    };
+
+    emailjs.send('service_h09tgad', 'template_rv2yd4n', templateParams)
+      .then(() => {
+        successMsg.style.display = 'block';
+        errorMsg.style.display = 'none';
+        form.reset();
+      }, () => {
+        successMsg.style.display = 'none';
+        errorMsg.style.display = 'block';
+      });
+  });
+</script>
+
+</body>
+</html>
